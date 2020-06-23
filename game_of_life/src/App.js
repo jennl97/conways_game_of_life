@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
+import Functions from './logic/Functions';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      size:[],
+      size:[0,0],
       generation: 0,
-      gameRunning: false
+      gameRunning: false,
+      functions: new Functions()
     
     }
     // bind event handlers here
@@ -17,6 +19,7 @@ class App extends Component {
     this.startGame = this.startGame.bind(this);
     this.stopGame = this.stopGame.bind(this);
     this.renderBoard = this.renderBoard.bind(this);
+    this.storeCell = this.storeCell.bind(this);
   }
 
   //build event handlers
@@ -73,7 +76,7 @@ class App extends Component {
       this.setState({
         gameRunning: true
       }, () => {
-        this.intervalRef = setInterval(() => this.runGame(), 10)
+        this.intervalRef = setInterval(() => this.runGame(), 20)
       })
     }
   }
@@ -90,7 +93,17 @@ class App extends Component {
   }
 
   runGame(){
+    this.setState({
+      functions: this.state.functions.addGeneration()
+    });
+  }
 
+  storeCell(position){
+    if(!this.state.gameRunning){
+      this.setState({
+        functions: this.state.functions.storeCell(position)
+      });
+    }
   }
 
   renderBoard(){
@@ -99,7 +112,11 @@ class App extends Component {
 
     for(var i = 0; i < this.state.size[0]; i++){
       for(var j = 0; j < this.state.size[1]; j++){
-        cell.push(<Cell key = {[i, j]} />)
+        if(this.state.functions.isCellAlive(i + " , " + j)){
+        cell.push(<Cell key = {[i, j]} position={{x: i, y: j}} live = {true} storeCell={this.storeCell.bind(this)} />);
+        } else{
+          cell.push(<Cell key={[i, j]} position={{x: i, y: j}} live = {false} storeCell={this.storeCell.bind(this)} />)
+        }
       }
       board.push(<div className='row' key= {i} > {cell}</div>);
       cell = [];
@@ -124,14 +141,19 @@ class App extends Component {
             </label>
           </div>
           <div className="controlButtons">
-              <button className="submit" onChange={this.startGame}>Start</button>
-              <button className="submit" onChange={this.stopGame}>Stop</button>
+              <button className="submit" onClick={this.startGame}>Start</button>
+              <button className="submit" onClick={this.stopGame}>Stop</button>
+              <button className="submit">Restart Game</button>
             </div>
           <div className = "generationContainer">
           <label className="label">
-              Generation: 
-              <input className="input" type="text" value={this.state.generation[0]} onChange={this.handleGenerationsChange} />
-            </label>
+              Generation: {this.state.functions.getGeneration()}
+              {/* <input className="input" type="text" value={this.state.generation[0]} onChange={this.handleGenerationsChange} /> */}
+         </label>
+         <label>
+              Set Animation Speed: 
+              <input className="input" type="text" />
+         </label>
           </div>
           <div className="boardContainer">
             {this.renderBoard()}
@@ -146,7 +168,7 @@ class App extends Component {
 class Cell extends Component{
   render(){
     return(
-      <div className = "cellContainer"></div>
+      <div onClick={() => this.props.storeCell(this.props.position)} className={this.props.live ? "cellContainerLive" : "cellContainerDead"}></div>
     )
   }
 }
