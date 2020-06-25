@@ -6,13 +6,15 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      size:[0,0],
+      size:[0, 0],
       generation: 0,
       gameRunning: false,
       functions: new Functions(),
       interval: 0
-    
     }
+
+   
+
     // bind event handlers here
     this.handleRowChange = this.handleRowChange.bind(this);
     this.handleColumnChange = this.handleColumnChange.bind(this);
@@ -59,17 +61,9 @@ class App extends Component {
       this.renderBoard();
     }
   }
-  userInterval(event){
-     var userSetInterval = this.state.interval;
 
-      if(event.target.value > 1){
-        userSetInterval = event.target.value;
-      } else {
-        userSetInterval = 1;
-      }
-      this.setState({
-        interval: userSetInterval
-      });
+   userInterval(event){
+    this.setState({interval: Number(event.target.value)});
     }
   
 
@@ -78,7 +72,7 @@ class App extends Component {
       this.setState({
         gameRunning: true
       }, () => {
-        this.intervalRef = setInterval(() => this.runGame(), 1000)
+        this.intervalRef = setInterval(() => this.runGame(), this.state.interval)
       })
     }
   }
@@ -103,9 +97,10 @@ class App extends Component {
   resetGame(event){
     event.preventDefault();
     this.setState({
-      size:[0,0],
+      size:[25,25],
       functions: new Functions(),
-      gameRunning: false      
+      gameRunning: false,
+      interval: 0      
     });
   }
 
@@ -163,13 +158,48 @@ class App extends Component {
           </label>
          <label>
               Interval Speed: 
-              <input className="input" type="text" value={this.state.interval} onChange={this.userInterval} />
+              <input className="input" value={this.state.interval} onChange={this.userInterval} />
          </label>
           </div>
           <div className="boardContainer">
             {this.renderBoard()}
           </div>
         </div>
+        <div className="aboutContainer">
+          <h3>About:</h3>
+          <p>
+          The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
+          It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input.
+          One interacts with the Game of Life by creating an initial configuration and observing how it evolves.
+          It is Turing complete and can simulate a universal constructor or any other Turing machine.</p>
+          <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns" target="_blank" rel="noopener noreferrer">Wikipedia Source</a>
+          <h3>What Are The Rules?</h3>
+          <p>
+          The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead, (or populated and unpopulated, respectively). 
+          Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. 
+          <br/>
+          At each step in time, the following transitions occur:
+          </p>
+          <ol>
+          <li>Any live cell with fewer than two live neighbours dies, as if by underpopulation.</li>
+          <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+          <li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
+          <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+          </ol>
+          <p>
+          These rules, which compare the behavior of the automaton to real life, can be condensed into the following:
+          </p>
+          <ol>
+            <li>Any live cell with two or three live neighbours survives.</li>
+            <li>Any dead cell with three live neighbours becomes a live cell.</li>
+            <li>All other live cells die in the next generation. Similarly, all other dead cells stay dead.</li>
+          </ol>
+          <p>
+          The initial pattern constitutes the seed of the system.
+          The first generation is created by applying the above rules simultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick.
+          Each generation is a pure function of the preceding one. The rules continue to be applied repeatedly to create further generations.
+          </p>
+          </div>
       </div>
     </div>
   );

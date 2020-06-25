@@ -1,16 +1,27 @@
 .App{
   display: flex;
+  margin-left: 40px;
 }
 
-.mainContainer, .header{
+.mainContainer, .header, .aboutContainer{
   display: flex;
   flex-direction: column;
   flex: 1;
   text-align: left;
 }
 
-.header h1{
-  margin-left: 40px;
+.header{
+  margin-bottom: 30px;
+}
+
+.aboutContainer{
+  width: 80%;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  border-top: 1px solid #282c34;
+}
+
+.header h1, .aboutContainer h3{
   color: #282c34;
 }
 
