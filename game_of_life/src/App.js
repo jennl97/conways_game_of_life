@@ -9,17 +9,19 @@ class App extends Component {
       size:[0,0],
       generation: 0,
       gameRunning: false,
-      functions: new Functions()
+      functions: new Functions(),
+      interval: 0
     
     }
     // bind event handlers here
     this.handleRowChange = this.handleRowChange.bind(this);
     this.handleColumnChange = this.handleColumnChange.bind(this);
-    this.handleGenerationsChange = this.handleGenerationsChange.bind(this);
     this.startGame = this.startGame.bind(this);
     this.stopGame = this.stopGame.bind(this);
     this.renderBoard = this.renderBoard.bind(this);
     this.storeCell = this.storeCell.bind(this);
+    this.userInterval = this.userInterval.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   //build event handlers
@@ -57,26 +59,26 @@ class App extends Component {
       this.renderBoard();
     }
   }
+  userInterval(event){
+     var userSetInterval = this.state.interval;
 
-  handleGenerationsChange(event){
-    if(!this.state.gameRunning){
-      var generation = this.state.generation;
-
-      if(event.target.value > 0){
-        generation = event.target.value;
+      if(event.target.value > 1){
+        userSetInterval = event.target.value;
       } else {
-        generation = 0;
+        userSetInterval = 1;
       }
+      this.setState({
+        interval: userSetInterval
+      });
     }
-
-  }
+  
 
   startGame(){
     if(!this.state.gameRunning){
       this.setState({
         gameRunning: true
       }, () => {
-        this.intervalRef = setInterval(() => this.runGame(), 20)
+        this.intervalRef = setInterval(() => this.runGame(), 1000)
       })
     }
   }
@@ -97,6 +99,16 @@ class App extends Component {
       functions: this.state.functions.addGeneration()
     });
   }
+
+  resetGame(event){
+    event.preventDefault();
+    this.setState({
+      size:[0,0],
+      functions: new Functions(),
+      gameRunning: false      
+    });
+  }
+
 
   storeCell(position){
     if(!this.state.gameRunning){
@@ -143,16 +155,15 @@ class App extends Component {
           <div className="controlButtons">
               <button className="submit" onClick={this.startGame}>Start</button>
               <button className="submit" onClick={this.stopGame}>Stop</button>
-              <button className="submit">Restart Game</button>
+              <button className="submit" onClick={this.resetGame}>Reset Game</button>
             </div>
           <div className = "generationContainer">
           <label className="label">
               Generation: {this.state.functions.getGeneration()}
-              {/* <input className="input" type="text" value={this.state.generation[0]} onChange={this.handleGenerationsChange} /> */}
-         </label>
+          </label>
          <label>
-              Set Animation Speed: 
-              <input className="input" type="text" />
+              Interval Speed: 
+              <input className="input" type="text" value={this.state.interval} onChange={this.userInterval} />
          </label>
           </div>
           <div className="boardContainer">

@@ -13,6 +13,10 @@ class Functions {
         return this.generation;
     }
 
+    resetGeneration(){
+       this.generation = 0;
+    }
+
     getLiveCells(){
         return this.liveCells;
     }
