@@ -1,42 +1,56 @@
+.root{
+  background-color: #F0EDEE;
+}
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Bebas Neue', cursive;
+}
 .App{
   display: flex;
   margin-left: 40px;
-}
+  }
 
-.mainContainer, .header, .aboutContainer{
+
+.mainContainer{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 1;
   text-align: left;
 }
 
+.header, .aboutContainer{
+  flex-direction: column;
+  }
+
 .header{
-  margin-bottom: 30px;
+  margin-right: 50px;
 }
 
-.aboutContainer{
-  width: 80%;
-  margin-top: 30px;
-  margin-bottom: 40px;
-  border-top: 1px solid #282c34;
+.mainAboutContainer{
+  margin-left: 50px;
+  padding-left: 50px;
+  width: 45%;
+   
 }
 
 .header h1, .aboutContainer h3{
-  color: #282c34;
+  color: #07393C;
 }
 
+p, .label {
+  color: #2C666E;
+  font-family: 'Poppins', sans-serif;
+}
 
 .controlsContainer,
 .generationContainer{
   display: flex;
   text-align: center;
   width: 200px;
-  padding: 20px 20px 0 20px;
-  margin-left: 40px;
+  /* padding: 20px 20px 0 20px; */
+  /* margin-left: 40px; */
 }
 
 .label{
-  display: flex;
   margin-bottom: 20px;
   margin-right: 10px;
 }
@@ -55,10 +69,7 @@
 .controlButtons{
   display: flex;
   justify-content: space-between;
-  width: 20%;
-  padding: 0 20px 20px;
-  margin-left: 40px;
-  
+  padding: 25px;
 }
 
 .cellContainerDead{
