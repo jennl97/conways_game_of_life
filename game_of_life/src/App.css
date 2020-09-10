@@ -15,6 +15,8 @@ h1, h2, h3, h4, h5, h6{
   flex-direction: row;
   flex: 1;
   text-align: left;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .header, .aboutContainer{
@@ -57,6 +59,34 @@ p, .label {
 
 .input{
   margin-left: 5px;
+}
+
+.submit{
+  padding: 5px 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  color: #2C666E;
+  border-radius: 10px;
+  border: 1px solid #2C666E;
+  background: none;
+}
+
+.submit.start:hover{
+  background: green;
+  border: 1px solid green;
+  color: white;
+}
+
+.submit.reset:hover{
+  background: #2C666E;
+  border: 1px solid #2C666E;
+  color: white;
+}
+
+.submit.stop:hover{
+  background: red;
+  border: 1px solid red;
+  color: white;
 }
 
 .boardContainer{

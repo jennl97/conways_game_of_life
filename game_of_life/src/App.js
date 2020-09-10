@@ -150,9 +150,9 @@ class App extends Component {
             </label>
           </div>
           <div className="controlButtons">
-              <button className="submit" onClick={this.startGame}>Start</button>
-              <button className="submit" onClick={this.stopGame}>Stop</button>
-              <button className="submit" onClick={this.resetGame}>Reset Game</button>
+              <button className="submit start" onClick={this.startGame}>Start</button>
+              <button className="submit stop" onClick={this.stopGame}>Stop</button>
+              <button className="submit reset" onClick={this.resetGame}>Reset Game</button>
             </div>
           <div className = "generationContainer">
           <label className="label">
