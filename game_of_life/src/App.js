@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import './App.css';
 import Functions from './logic/Functions';
+import About from './Components/About';
+
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      size:[0,0],
+      size:[25, 25],
       generation: 0,
       gameRunning: false,
       functions: new Functions(),
       interval: 0
-    
     }
+
+   
+
     // bind event handlers here
     this.handleRowChange = this.handleRowChange.bind(this);
     this.handleColumnChange = this.handleColumnChange.bind(this);
@@ -59,17 +63,9 @@ class App extends Component {
       this.renderBoard();
     }
   }
-  userInterval(event){
-     var userSetInterval = this.state.interval;
 
-      if(event.target.value > 1){
-        userSetInterval = event.target.value;
-      } else {
-        userSetInterval = 1;
-      }
-      this.setState({
-        interval: userSetInterval
-      });
+   userInterval(event){
+    this.setState({interval: Number(event.target.value)});
     }
   
 
@@ -78,7 +74,7 @@ class App extends Component {
       this.setState({
         gameRunning: true
       }, () => {
-        this.intervalRef = setInterval(() => this.runGame(), 1000)
+        this.intervalRef = setInterval(() => this.runGame(), this.state.interval)
       })
     }
   }
@@ -103,9 +99,10 @@ class App extends Component {
   resetGame(event){
     event.preventDefault();
     this.setState({
-      size:[0,0],
+      size:[25,25],
       functions: new Functions(),
-      gameRunning: false      
+      gameRunning: false,
+      interval: 0      
     });
   }
 
@@ -153,22 +150,25 @@ class App extends Component {
             </label>
           </div>
           <div className="controlButtons">
-              <button className="submit" onClick={this.startGame}>Start</button>
-              <button className="submit" onClick={this.stopGame}>Stop</button>
-              <button className="submit" onClick={this.resetGame}>Reset Game</button>
+              <button className="submit start" onClick={this.startGame}>Start</button>
+              <button className="submit stop" onClick={this.stopGame}>Stop</button>
+              <button className="submit reset" onClick={this.resetGame}>Reset Game</button>
             </div>
           <div className = "generationContainer">
           <label className="label">
               Generation: {this.state.functions.getGeneration()}
           </label>
-         <label>
+         <label className="label">
               Interval Speed: 
-              <input className="input" type="text" value={this.state.interval} onChange={this.userInterval} />
+              <input className="input" value={this.state.interval} onChange={this.userInterval} />
          </label>
           </div>
           <div className="boardContainer">
             {this.renderBoard()}
           </div>
+        </div>
+        <div className="mainAboutContainer">
+        <About />
         </div>
       </div>
     </div>
